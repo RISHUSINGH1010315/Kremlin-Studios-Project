@@ -1,4 +1,4 @@
-:HL["/Kremlin-Studios-Project/_next/static/chunks/0p6qpz1g3lyk4.css","style"]
+:HL["/Kremlin-Studios-Project/_next/static/chunks/3f6bbtvb9j9u9.css","style"]
 :HL["/Kremlin-Studios-Project/_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/Kremlin-Studios-Project/_next/static/media/8c2eb9ceedecfc8e-s.p.23aeddxv5enbo.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"admin","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"UzGbiFf8J9h9PqH16f0tK"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"admin","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"xAMmPovRkuVPkUregFSXo"}
