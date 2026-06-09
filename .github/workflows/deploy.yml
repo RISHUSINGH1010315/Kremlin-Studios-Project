@@ -27,7 +27,9 @@ jobs:
           npm install --prefix backend
 
       - name: Build frontend
-        run: npm run build:frontend
+        run: |
+          npm run build:frontend
+          touch out/.nojekyll
         env:
           GITHUB_PAGES: true
 
