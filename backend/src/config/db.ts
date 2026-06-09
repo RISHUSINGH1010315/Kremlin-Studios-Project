@@ -7,12 +7,12 @@ import bcrypt from 'bcryptjs';
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
-const hasDatabaseUrl = !!process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL;
 
-const pool = hasDatabaseUrl
+const pool = databaseUrl
   ? new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: process.env.DATABASE_URL.includes('localhost') || process.env.DATABASE_URL.includes('127.0.0.1')
+      connectionString: databaseUrl,
+      ssl: databaseUrl.includes('localhost') || databaseUrl.includes('127.0.0.1')
         ? false
         : { rejectUnauthorized: false }
     })
@@ -29,14 +29,78 @@ export const initDb = async () => {
     const client = await pool.connect();
     console.log('Connected to PostgreSQL successfully.');
     
-    // Read schema.sql and execute it
-    const schemaPath = path.join(__dirname, '../db/schema.sql');
-    if (fs.existsSync(schemaPath)) {
-      const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+    // Try multiple paths to find schema.sql (development, compiled production, and fallback)
+    let schemaSql = '';
+    const pathsToTry = [
+      path.join(__dirname, '../db/schema.sql'),
+      path.join(__dirname, '../../src/db/schema.sql'),
+      path.join(process.cwd(), 'src/db/schema.sql'),
+      path.join(process.cwd(), 'backend/src/db/schema.sql'),
+      path.join(process.cwd(), 'dist/db/schema.sql')
+    ];
+
+    let found = false;
+    for (const p of pathsToTry) {
+      if (fs.existsSync(p)) {
+        try {
+          schemaSql = fs.readFileSync(p, 'utf8');
+          found = true;
+          console.log(`Found database schema file at: ${p}`);
+          break;
+        } catch (readErr) {
+          console.warn(`Attempted to read schema from ${p} but failed:`, readErr);
+        }
+      }
+    }
+
+    if (found) {
       await client.query(schemaSql);
-      console.log('Database tables verified/created successfully.');
+      console.log('Database tables verified/created successfully from file schema.');
     } else {
-      console.warn('schema.sql not found at:', schemaPath);
+      console.warn('schema.sql not found in standard paths. Using inlined schema fallback.');
+      const fallbackSchema = `
+        -- Schema Fallback for Kremlin Luxury Studios
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            role VARCHAR(50) DEFAULT 'admin',
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE TABLE IF NOT EXISTS inquiries (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            phone VARCHAR(50),
+            check_in_date DATE,
+            check_out_date DATE,
+            guests INTEGER DEFAULT 1,
+            message TEXT,
+            status VARCHAR(50) DEFAULT 'new',
+            source VARCHAR(100) DEFAULT 'contact_form',
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE TABLE IF NOT EXISTS chat_sessions (
+            id SERIAL PRIMARY KEY,
+            session_id VARCHAR(100) UNIQUE NOT NULL,
+            guest_name VARCHAR(255),
+            guest_email VARCHAR(255),
+            messages JSONB DEFAULT '[]'::jsonb,
+            qualified BOOLEAN DEFAULT FALSE,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE TABLE IF NOT EXISTS analytics_events (
+            id SERIAL PRIMARY KEY,
+            event_type VARCHAR(100) NOT NULL,
+            page_path VARCHAR(255) DEFAULT '/',
+            referrer VARCHAR(255),
+            metadata JSONB,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+      `;
+      await client.query(fallbackSchema);
+      console.log('Database tables verified/created successfully using fallback inline schema.');
     }
     
     // Seed default admin user if no users exist
