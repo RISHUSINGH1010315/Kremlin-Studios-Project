@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Kremlin Luxury Studios</title>
+    
+    <link rel="icon" type="image/png" href="images/Logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:wght@400&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #111111;
+            color: #E5E7EB;
+            overflow-x: hidden;
+        }
+
+        .font-lora {
+            font-family: 'Lora', serif;
+        }
+        
+        /* FIX: Removed unused .btn-primary CSS rules */
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            font-family: 'Lora', serif;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #DC2626;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link-active::after {
+            width: 100%;
+        }
+
+        #mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Gallery Item Styles */
+        .gallery-item {
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            background-color: #2a2a2a;
+        }
+
+        .gallery-item img {
+            transition: transform 0.4s ease-out;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.is-open .lightbox-content {
+            transform: scale(1);
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <header class="bg-black bg-opacity-50 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm">
+        <nav class="container mx-auto px-4 sm:px-6 md:px-12 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-lg sm:text-xl md:text-2xl font-bold font-lora text-white">Kremlin Luxury
+                Studios</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="gallery.html" class="nav-link nav-link-active text-white">The Studio</a>
+                <a href="index.html#posts" class="nav-link text-gray-300 hover:text-white">Guest Stories</a>
+                <a href="index.html#amenities" class="nav-link text-gray-300 hover:text-white">Amenities</a>
+                <a href="index.html#booking" class="nav-link text-gray-300 hover:text-white">Booking</a>
+                <a href="index.html#contact" class="nav-link text-gray-300 hover:text-white">Contact</a>
+            </div>
+            <button id="open-menu-btn" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-[#1a1a1a] z-[60] flex flex-col items-center justify-center md:hidden">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <div class="flex flex-col space-y-8 text-center">
+            <a href="gallery.html" class="text-3xl font-lora text-white mobile-nav-link">The Studio</a>
+            <a href="index.html#posts" class="text-3xl font-lora text-gray-300 hover:text-white mobile-nav-link">Guest
+                Stories</a>
+            <a href="index.html#amenities"
+                class="text-3xl font-lora text-gray-300 hover:text-white mobile-nav-link">Amenities</a>
+            <a href="index.html#booking"
+                class="text-3xl font-lora text-gray-300 hover:text-white mobile-nav-link">Booking</a>
+            <a href="index.html#contact"
+                class="text-3xl font-lora text-gray-300 hover:text-white mobile-nav-link">Contact</a>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-4 sm:px-6 md:px-12 pt-24 pb-16 md:pt-32 md:pb-24">
+
+        <section id="gallery" class="px-4 sm:px-6 lg:px-8">
+            <div class="relative text-center mb-12 md:mb-16">
+                <h1 class="text-4xl sm:text-5xl font-bold font-lora">Studio Gallery</h1>
+                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Every detail, meticulously crafted for your comfort and
+                    delight. Click on any image to view it in full screen.</p>
+
+                <a href="index.html"
+                    class="block mt-6 md:absolute md:top-4 md:right-0 md:mt-0 text-lg text-gray-400 hover:text-white transition-colors">&larr;
+                    Back to Home</a>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-4 md:gap-6 max-w-7xl mx-auto">
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_162747.jpg" alt="Overhead view of the plush studio bed and interior" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_162921.jpg" alt="Cozy armchair and seating area in the studio" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_163226.jpg" alt="Elegant chairs and table for in-room dining" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_163411.jpg" alt="Comfortable bed with bedside lamps" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_164855.jpg" alt="Entertainment center with smart TV" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_163610.jpg" alt="Decorative elements and studio details" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_165039.jpg" alt="Fully equipped kitchenette area" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_165117.jpg" alt="Studio amenities including kettle and supplies" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_165310.jpg" alt="Artistic shot of the studio's interior design" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_165833.jpg" alt="Clean and modern bathroom sink and mirror" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_170139.jpg" alt="View from the balcony seating area" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="gallery-item relative aspect-square">
+                    <img src="images/IMG_20251002_174306.jpg" alt="Exterior view of the building at dusk" class="w-full h-full object-cover">
+                    <div
+                        class="gallery-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2025 Kremlin Luxury Studios. All Rights Reserved.</p>
+            <p class="text-sm mt-2">Designed with passion. Hosted with care.</p>
+        </div>
+    </footer>
+
+    <div id="lightbox"
+        class="lightbox fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[100] p-4">
+        <div class="lightbox-content max-w-4xl max-h-[90vh] w-full h-full flex items-center justify-center relative">
+            <img id="lightbox-image" src="" alt="Full-screen view"
+                class="max-w-full max-h-full object-contain shadow-2xl rounded-lg">
+        </div>
+        <button id="lightbox-close"
+            class="absolute top-6 right-6 text-white text-5xl font-bold opacity-80 hover:opacity-100 transition-opacity">&times;</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Menu Logic ---
+            const openMenuBtn = document.getElementById('open-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            const lightboxEl = document.getElementById('lightbox');
+
+            const openMobileMenu = () => { mobileMenu.classList.add('open'); document.body.classList.add('modal-open'); };
+            const closeMobileMenu = () => { mobileMenu.classList.remove('open'); if (!lightboxEl.classList.contains('is-open')) { document.body.classList.remove('modal-open'); } };
+
+            openMenuBtn.addEventListener('click', openMobileMenu);
+            closeMenuBtn.addEventListener('click', closeMobileMenu);
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            // --- Lightbox Logic ---
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxCloseBtn = document.getElementById('lightbox-close');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            const openLightbox = (imageSrc, altText) => {
+                lightboxImage.src = imageSrc;
+                lightboxImage.alt = altText;
+                lightboxEl.classList.add('is-open');
+                document.body.classList.add('modal-open');
+            };
+
+            const closeLightbox = () => {
+                lightboxEl.classList.remove('is-open');
+                if (!mobileMenu.classList.contains('open')) {
+                    document.body.classList.remove('modal-open');
+                }
+            };
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgElement = item.querySelector('img');
+                    openLightbox(imgElement.src, imgElement.alt);
+                });
+            });
+
+            lightboxCloseBtn.addEventListener('click', closeLightbox);
+            lightboxEl.addEventListener('click', (event) => {
+                if (event.target === lightboxEl) {
+                    closeLightbox();
+                }
+            });
+
+            // Close lightbox with Escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && lightboxEl.classList.contains('is-open')) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
