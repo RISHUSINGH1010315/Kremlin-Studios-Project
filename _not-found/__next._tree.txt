@@ -1,2 +1,2 @@
-:HL["/Kremlin-Studios-Project/_next/static/chunks/3f6bbtvb9j9u9.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"VooUp5l8Paj1zLLV_Czlt"}
+:HL["/Kremlin-Studios-Project/_next/static/chunks/0p6qpz1g3lyk4.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"Tu1u_iia-5GZVvW-Ud5RL"}
