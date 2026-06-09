@@ -14,15 +14,17 @@ const lora = Lora({
   weight: ["400", "500", "600", "700"],
 });
 
+const prefix = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export const metadata: Metadata = {
   title: "Kremlin Studios | Building AI-Powered Brands For The Next Decade",
   description: "We combine creativity, AI, automation, content, design, and technology to help businesses scale faster. Explore our digital agency services or book our luxury Greater Noida Creator Residency.",
   keywords: "Kremlin Studios, AI Agency, Creative Studio, UI/UX Design, Web Development, Next.js, Greater Noida Studio, Creator Residency, Video Editing, AI Automation, Noida, Delhi NCR",
   authors: [{ name: "Kremlin Studios" }],
   icons: {
-    icon: "/images/Logo.png",
-    shortcut: "/images/Logo.png",
-    apple: "/images/Logo.png",
+    icon: `${prefix}/images/Logo.png`,
+    shortcut: `${prefix}/images/Logo.png`,
+    apple: `${prefix}/images/Logo.png`,
   }
 };
 

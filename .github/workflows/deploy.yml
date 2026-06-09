@@ -32,6 +32,7 @@ jobs:
           touch out/.nojekyll
         env:
           GITHUB_PAGES: true
+          NEXT_PUBLIC_BASE_PATH: /Kremlin-Studios-Project
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

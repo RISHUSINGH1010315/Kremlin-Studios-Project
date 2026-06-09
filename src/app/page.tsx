@@ -32,12 +32,13 @@ import confetti from "canvas-confetti";
 
 // API Base URL (Dynamic for local dev & production deployment)
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const prefix = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const ROOM_IMAGES = [
-  { url: "/images/hotel_new_5.jpg", title: "The Balcony Suite", desc: "Plush double bed, backlit circular mirror, and direct balcony workspace" },
-  { url: "/images/hotel_new_4.jpg", title: "The Kremlin Suite", desc: "Beautifully styled room with St. Basil's artwork, TV, and lounge area" },
-  { url: "/images/hotel_new_1.jpg", title: "The Living Space", desc: "Modern open-concept living area with comfortable sofa and smart TV" },
-  { url: "/images/hotel_new_2.jpg", title: "The Kitchenette Lounge", desc: "Fully equipped kitchenette, mini-fridge, and comfortable seating" },
+  { url: `${prefix}/images/hotel_new_5.jpg`, title: "The Balcony Suite", desc: "Plush double bed, backlit circular mirror, and direct balcony workspace" },
+  { url: `${prefix}/images/hotel_new_4.jpg`, title: "The Kremlin Suite", desc: "Beautifully styled room with St. Basil's artwork, TV, and lounge area" },
+  { url: `${prefix}/images/hotel_new_1.jpg`, title: "The Living Space", desc: "Modern open-concept living area with comfortable sofa and smart TV" },
+  { url: `${prefix}/images/hotel_new_2.jpg`, title: "The Kitchenette Lounge", desc: "Fully equipped kitchenette, mini-fridge, and comfortable seating" },
 ];
 
 const LiveBotAvatar = ({ isListening = false, isBlinking = false, size = "md" }: { isListening?: boolean; isBlinking?: boolean; size?: "sm" | "md" | "lg" }) => {
@@ -273,33 +274,33 @@ export default function Home() {
   };
 
   const roomSpaces = [
-    { title: "The Kremlin Suite", img: "/images/hotel_new_4.jpg", desc: "A cozy king-sized bed featuring St. Basil's artwork, soft premium grey linens, and warm bedside controls." },
-    { title: "Lounge & Seating Area", img: "/images/hotel_new_1.jpg", desc: "A plush teal couch, modern coffee table, and smart media console, ideal for lounging or creative work." },
-    { title: "Fully Equipped Kitchenette", img: "/images/hotel_new_2.jpg", desc: "Equipped with a refrigerator, microwave, induction plate, kettle, and all essentials to prepare your meals." },
-    { title: "Cozy Bedroom Retreat", img: "/images/hotel_new_3.jpg", desc: "An alternative double bed layout with grey drapes, air conditioning, and soft floor tiles." }
+    { title: "The Kremlin Suite", img: `${prefix}/images/hotel_new_4.jpg`, desc: "A cozy king-sized bed featuring St. Basil's artwork, soft premium grey linens, and warm bedside controls." },
+    { title: "Lounge & Seating Area", img: `${prefix}/images/hotel_new_1.jpg`, desc: "A plush teal couch, modern coffee table, and smart media console, ideal for lounging or creative work." },
+    { title: "Fully Equipped Kitchenette", img: `${prefix}/images/hotel_new_2.jpg`, desc: "Equipped with a refrigerator, microwave, induction plate, kettle, and all essentials to prepare your meals." },
+    { title: "Cozy Bedroom Retreat", img: `${prefix}/images/hotel_new_3.jpg`, desc: "An alternative double bed layout with grey drapes, air conditioning, and soft floor tiles." }
   ];
 
   const galleryImages = [
-    { url: "/images/hotel_new_5.jpg", title: "Master Suite & Backlit Mirror" },
-    { url: "/images/hotel_new_4.jpg", title: "Kremlin Art Decor Bed" },
-    { url: "/images/hotel_new_1.jpg", title: "Living Lounge & Sofa" },
-    { url: "/images/hotel_new_2.jpg", title: "Kitchenette & Entertainment" },
-    { url: "/images/hotel_new_3.jpg", title: "Cozy Double Bed Layout" },
-    { url: "/images/IMG_20251002_163411.jpg", title: "Master Bed Detail" },
-    { url: "/images/IMG_20251002_170139.jpg", title: "Balcony Seating View" },
-    { url: "/images/IMG_20251002_174306.jpg", title: "Gaur City Center Building" }
+    { url: `${prefix}/images/hotel_new_5.jpg`, title: "Master Suite & Backlit Mirror" },
+    { url: `${prefix}/images/hotel_new_4.jpg`, title: "Kremlin Art Decor Bed" },
+    { url: `${prefix}/images/hotel_new_1.jpg`, title: "Living Lounge & Sofa" },
+    { url: `${prefix}/images/hotel_new_2.jpg`, title: "Kitchenette & Entertainment" },
+    { url: `${prefix}/images/hotel_new_3.jpg`, title: "Cozy Double Bed Layout" },
+    { url: `${prefix}/images/IMG_20251002_163411.jpg`, title: "Master Bed Detail" },
+    { url: `${prefix}/images/IMG_20251002_170139.jpg`, title: "Balcony Seating View" },
+    { url: `${prefix}/images/IMG_20251002_174306.jpg`, title: "Gaur City Center Building" }
   ];
 
   const localGuides = [
     { title: "Iconic Delhi (35 Mins)", items: [
-      { name: "India Gate", desc: "Majestic war memorial perfect for sunset strolls and photography.", img: "/images/indiagate.jpg" },
-      { name: "Humayun's Tomb", desc: "Stunning red sandstone Mughal architecture that inspired the Taj Mahal.", img: "/images/humayuns.jpg" },
-      { name: "Qutub Minar", desc: "Tallest brick minaret in the world, showcasing historical stone design.", img: "/images/qutubminar.jpg" }
+      { name: "India Gate", desc: "Majestic war memorial perfect for sunset strolls and photography.", img: `${prefix}/images/indiagate.jpg` },
+      { name: "Humayun's Tomb", desc: "Stunning red sandstone Mughal architecture that inspired the Taj Mahal.", img: `${prefix}/images/humayuns.jpg` },
+      { name: "Qutub Minar", desc: "Tallest brick minaret in the world, showcasing historical stone design.", img: `${prefix}/images/qutubminar.jpg` }
     ]},
     { title: "Greater Noida West (Local)", items: [
-      { name: "Gaur City Mall", desc: "Steps from the studio, featuring a massive food court, movies, and shopping.", img: "/images/gaurcitymall.jpeg" },
-      { name: "Grand Venice Mall", desc: "Famous for its indoor canals, gondola rides, and Roman architecture.", img: "/images/venicemall.avif" },
-      { name: "Local Parks & Eateries", desc: "Beautiful green spaces and popular modern cafes right at Sector 4.", img: "/images/eateries.jpeg" }
+      { name: "Gaur City Mall", desc: "Steps from the studio, featuring a massive food court, movies, and shopping.", img: `${prefix}/images/gaurcitymall.jpeg` },
+      { name: "Grand Venice Mall", desc: "Famous for its indoor canals, gondola rides, and Roman architecture.", img: `${prefix}/images/venicemall.avif` },
+      { name: "Local Parks & Eateries", desc: "Beautiful green spaces and popular modern cafes right at Sector 4.", img: `${prefix}/images/eateries.jpeg` }
     ]}
   ];
 
@@ -315,7 +316,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <a href="#" className="flex items-center gap-3 group">
             <img 
-              src="/images/Logo.png" 
+              src={`${prefix}/images/Logo.png`} 
               alt="Kremlin Luxury Studios" 
               className="w-12 h-12 rounded-xl object-contain transition-transform group-hover:scale-105 shadow-md shadow-blue-500/5"
             />
@@ -361,7 +362,7 @@ export default function Home() {
           >
             <div className="flex justify-between items-center mb-10">
               <div className="flex items-center gap-3">
-                <img src="/images/Logo.png" alt="Kremlin Luxury Studios" className="w-9 h-9 object-contain" />
+                <img src={`${prefix}/images/Logo.png`} alt="Kremlin Luxury Studios" className="w-9 h-9 object-contain" />
                 <span className="font-extrabold tracking-tight">KREMLIN LUXURY STUDIOS</span>
               </div>
               <button className="p-2 border rounded-full" onClick={() => setMobileMenuOpen(false)}>
@@ -898,7 +899,7 @@ export default function Home() {
       <footer className="bg-slate-950 text-white py-12 px-6 mt-auto">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 border-b border-slate-900 pb-8 mb-8">
           <div className="flex items-center gap-3">
-            <img src="/images/Logo.png" alt="Kremlin Luxury Studios" className="w-10 h-10 object-contain" />
+            <img src={`${prefix}/images/Logo.png`} alt="Kremlin Luxury Studios" className="w-10 h-10 object-contain" />
             <span className="font-extrabold tracking-tight text-white">KREMLIN LUXURY STUDIOS</span>
           </div>
 
@@ -1043,7 +1044,7 @@ export default function Home() {
               </button>
 
               <div className="text-center mb-6">
-                <img src="/images/Logo.png" alt="Kremlin Luxury Studios" className="w-16 h-16 object-contain mx-auto mb-4" />
+                <img src={`${prefix}/images/Logo.png`} alt="Kremlin Luxury Studios" className="w-16 h-16 object-contain mx-auto mb-4" />
                 <h3 className="text-xl font-bold tracking-tight">Reserve Kremlin Studio</h3>
                 <p className="text-xs text-gray-500 mt-1">Gaur City Centre, Greater Noida NCR</p>
                 

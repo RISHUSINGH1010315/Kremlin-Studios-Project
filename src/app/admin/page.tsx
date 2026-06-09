@@ -33,6 +33,7 @@ import {
 
 // API Base URL (Dynamic for local dev & production deployment)
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const prefix = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -189,7 +190,7 @@ export default function AdminPage() {
 
         <div className="w-full max-w-md bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xl relative z-10">
           <div className="text-center mb-8">
-            <img src="/images/Logo.png" alt="Kremlin Host Portal" className="w-16 h-16 object-contain mx-auto mb-4" />
+            <img src={`${prefix}/images/Logo.png`} alt="Kremlin Host Portal" className="w-16 h-16 object-contain mx-auto mb-4" />
             <span className="text-sm font-bold tracking-widest uppercase text-blue-600 font-sans">Host Portal</span>
             <h2 className="text-2xl font-bold text-gray-900 mt-2 font-serif">Kremlin Host login</h2>
             <p className="text-xs text-gray-400 mt-1">Manage guest stay dates and reservations</p>
@@ -247,7 +248,7 @@ export default function AdminPage() {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-18 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src="/images/Logo.png" alt="Kremlin Host" className="w-9 h-9 object-contain" />
+            <img src={`${prefix}/images/Logo.png`} alt="Kremlin Host" className="w-9 h-9 object-contain" />
             <span className="font-extrabold text-gray-900 tracking-tight font-sans">KREMLIN HOST</span>
           </div>
 
